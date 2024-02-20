@@ -3,12 +3,15 @@ import { PrismaClient } from '@prisma/client'
 import { generateToken } from '../authentication/jwt'
 import { authenticate, hashPassword } from '../authentication/auth'
 import bcrypt from 'bcrypt'
+import {use} from "passport";
 
 const prisma = new PrismaClient()
 const router = express.Router()
 
 router.post('/register', async (req, res) => {
   const { email, password, name } = req.body
+
+  console.log(req.body)
 
   const existingUser = await prisma.user.findUnique({
     where: { email },
@@ -35,7 +38,6 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body
-
   // Find the user by email
   const user = await prisma.user.findUnique({
     where: { email },
@@ -52,7 +54,7 @@ router.post('/login', async (req, res) => {
   if (isPasswordValid) {
     // Generate JWT token
     const token = generateToken(user.id)
-    res.json({ token })
+    res.json({ id: user.id, email: user.email, name: user.name, accessToken: token })
   } else {
     res.status(401).json({ message: 'Invalid credentials' })
   }

@@ -1,7 +1,8 @@
 import type {Metadata} from "next";
 import type {ReactNode} from "react";
-import MuiProvider from "@/providers/mui";
+import MuiProvider from "@/providers/muiProvider";
 import Header from "@/components/global/Header";
+import AuthProvider from "@/providers/AuthProvider";
 
 export const metadata: Metadata = {
     title: "Next Mui Chat app",
@@ -11,14 +12,16 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: Readonly<{ children: ReactNode; }>) {
     return (
         <html lang="en">
-        <MuiProvider>
-            <body>
-            <Header/>
-            <main>
-                {children}
-            </main>
-            </body>
-        </MuiProvider>
+        <AuthProvider>
+            <MuiProvider>
+                <body>
+                <Header/>
+                <main>
+                    {children}
+                </main>
+                </body>
+            </MuiProvider>
+        </AuthProvider>
         </html>
     );
 }

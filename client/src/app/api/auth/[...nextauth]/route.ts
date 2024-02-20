@@ -1,31 +1,39 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
-
+import {login} from "@/services/auth";
 
 const handler = NextAuth({
     pages: {
         signIn: "/auth/login",
+        newUser: "auth/register",
     },
     providers: [
         CredentialsProvider({
-            name: "Credentials",
+            name: "credentials",
             credentials: {},
             async authorize(credentials, req) {
-                // Add logic here to look up the user from the credentials supplied
-                const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
-
-                if (user) {
-                    // Any object returned will be saved in `user` property of the JWT
+                let {email, password} = credentials as {email: string, password: string}
+                const res = await login({email: email, password: password})
+                const user = await res.json()
+                console.log(user)
+                if (res.ok && user) {
                     return user
                 } else {
-                    // If you return null then an error will be displayed advising the user to check their details.
                     return null
-
-                    // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
                 }
             }
         })
-    ]
+    ],
+    callbacks: {
+        async jwt({token, user}) {
+            return {...token, ...user}
+        },
+        async session({session, token, user}) {
+            session.user = token
+            return session
+        },
+
+    }
 })
 
 export { handler as GET, handler as POST }
