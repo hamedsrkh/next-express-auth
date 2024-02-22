@@ -2,8 +2,9 @@ import express from 'express'
 import passport from 'passport'
 import router from '../routes'
 import cors from 'cors'
+import {config} from "dotenv";
 
-require('dotenv').config()
+config()
 const app = express()
 
 app.use(passport.initialize())

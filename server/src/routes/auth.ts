@@ -1,11 +1,9 @@
 import express from 'express'
-import { PrismaClient } from '@prisma/client'
 import { generateToken } from '../authentication/jwt'
 import { authenticate, hashPassword } from '../authentication/auth'
 import bcrypt from 'bcrypt'
-import {use} from "passport";
+import prisma from "../../prisma/prismaClient";
 
-const prisma = new PrismaClient()
 const router = express.Router()
 
 router.post('/register', async (req, res) => {

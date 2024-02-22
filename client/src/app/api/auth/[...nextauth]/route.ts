@@ -15,7 +15,6 @@ const handler = NextAuth({
                 let {email, password} = credentials as {email: string, password: string}
                 const res = await login({email: email, password: password})
                 const user = await res.json()
-                console.log(user)
                 if (res.ok && user) {
                     return user
                 } else {
