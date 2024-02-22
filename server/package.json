@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "npx nodemon src/index.ts",
+    "dev": "npx nodemon -r tsconfig-paths/register src/index.ts",
     "build": "tsc",
     "start": "node ./dist",
     "lint": "eslint .",
@@ -43,6 +43,8 @@
     "nodemon": "^3.0.3",
     "prettier": "^3.2.4",
     "ts-node": "10.9.2",
+    "tsc-alias": "^1.8.8",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "5.3.3"
   }
 }

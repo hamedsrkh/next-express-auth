@@ -1,16 +1,13 @@
 import express from 'express'
-import { generateToken } from '../authentication/jwt'
-import { authenticate, hashPassword } from '../authentication/auth'
+import { generateToken } from '@src/authentication/jwt'
+import { authenticate, hashPassword } from '@src/authentication/auth'
 import bcrypt from 'bcrypt'
-import prisma from "../../prisma/prismaClient";
+import prisma from "@src/prisma/prismaClient";
 
 const router = express.Router()
 
 router.post('/register', async (req, res) => {
   const { email, password, name } = req.body
-
-  console.log(req.body)
-
   const existingUser = await prisma.user.findUnique({
     where: { email },
   })
