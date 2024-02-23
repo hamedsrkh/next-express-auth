@@ -2,7 +2,7 @@
 
 import {Button, TextField} from "@mui/material";
 import {useState} from "react";
-import {signIn, useSession} from "next-auth/react";
+import {signIn} from "next-auth/react";
 
 function LoginForm() {
     const [email, setEmail] = useState('');
@@ -12,8 +12,6 @@ function LoginForm() {
         await signIn('credentials', {
             email,
             password,
-            redirect: false,
-            callbackUrl: "/dashboard"
         })
     };
     return <form onSubmit={handleSubmit} noValidate>

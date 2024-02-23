@@ -1,7 +1,7 @@
 'use client'
 import React, {useState} from 'react';
 import {Button, TextField} from "@mui/material";
-import {register} from "@/services/auth";
+import {register} from "@/requests/auth";
 
 function RegisterForm() {
     const [name, setName] = useState('')

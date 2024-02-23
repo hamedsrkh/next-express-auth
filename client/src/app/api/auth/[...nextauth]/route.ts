@@ -1,14 +1,14 @@
 import NextAuth, { Awaitable, NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { login } from '@/services/auth'
+import { login } from '@/requests/auth'
 import jwt from 'jsonwebtoken'
 import { JWT } from 'next-auth/jwt'
 
 
 export const authOptions: NextAuthOptions = {
   pages: {
-    signIn: '/auth/login',
-    newUser: 'auth/register'
+    signIn: '/login',
+    newUser: '/register',
   },
   jwt: {
     async encode({ secret, token }) {
