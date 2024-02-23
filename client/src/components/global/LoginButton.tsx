@@ -13,10 +13,10 @@ function LoginButton() {
         <>
             {!isLoggedIn ? (
                 <>
-                    <Link href="/auth/login" passHref>
+                    <Link href="/login" passHref>
                         <Button sx={{color: CustomTheme.palette.primary.contrastText}}>Login</Button>
                     </Link>
-                    <Link href="/auth/register" passHref>
+                    <Link href="/register" passHref>
                         <Button sx={{color: CustomTheme.palette.primary.contrastText}} variant="outlined">Register</Button>
                     </Link>
                 </>
