@@ -2,8 +2,8 @@ version: '3'
 services:
   web:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: server
+      dockerfile: server/Dockerfile
     ports:
       - "8085:8085"
 #    volumes:
@@ -11,11 +11,11 @@ services:
     depends_on:
       - db
     env_file:
-      - .env
+      - server/.env
   db:
     build:
-      context: .
-      dockerfile: docker/postgresql/Dockerfile
+      context: server
+      dockerfile: server/docker/postgresql/Dockerfile
     ports:
       - "5432:5432"
     volumes:
