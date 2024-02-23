@@ -1,7 +1,5 @@
-import NextAuth from "next-auth"
-
-declare module "next-auth" {
-  interface Session {
+declare module 'next-auth' {
+  export interface Session {
     user: {
       id: number
       name: string

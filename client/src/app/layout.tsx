@@ -7,24 +7,24 @@ import ThemeProvider from '@/providers/ThemeProvider'
 
 export const metadata: Metadata = {
   title: 'Next Mui Chat app',
-  description: ''
+  description: '',
 }
 
-export default function RootLayout({ children }: Readonly<{ children: ReactNode; }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
-    <AuthProvider>
-      <MuiProvider>
-        <ThemeProvider>
-          <body>
-          <Header />
-          <main>
-            {children}
-          </main>
-          </body>
-        </ThemeProvider>
-      </MuiProvider>
-    </AuthProvider>
+      <AuthProvider>
+        <MuiProvider>
+          <ThemeProvider>
+            <body>
+              <Header />
+              <main>{children}</main>
+            </body>
+          </ThemeProvider>
+        </MuiProvider>
+      </AuthProvider>
     </html>
   )
 }
