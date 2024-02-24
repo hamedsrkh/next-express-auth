@@ -6,6 +6,8 @@ import React from 'react'
 import { CustomTheme } from '@/theme'
 import { useSession, signOut } from 'next-auth/react'
 
+const buttonStyle = { color: CustomTheme.palette.primary.contrastText }
+
 function LoginButton() {
   const { status } = useSession()
   return (
@@ -13,15 +15,10 @@ function LoginButton() {
       {status !== 'authenticated' ? (
         <>
           <Link href="/login" passHref>
-            <Button sx={{ color: CustomTheme.palette.primary.contrastText }}>
-              Login
-            </Button>
+            <Button sx={buttonStyle}>Login</Button>
           </Link>
           <Link href="/register" passHref>
-            <Button
-              sx={{ color: CustomTheme.palette.primary.contrastText }}
-              variant="outlined"
-            >
+            <Button sx={buttonStyle} variant="outlined">
               Register
             </Button>
           </Link>
@@ -29,17 +26,11 @@ function LoginButton() {
       ) : (
         <>
           <Link href="/dashboard" passHref>
-            <Button
-              sx={{ color: CustomTheme.palette.primary.contrastText }}
-              variant="outlined"
-            >
+            <Button sx={buttonStyle} variant="outlined">
               Dashboard
             </Button>
           </Link>
-          <Button
-            sx={{ color: CustomTheme.palette.primary.contrastText }}
-            onClick={() => signOut()}
-          >
+          <Button sx={buttonStyle} onClick={() => signOut()}>
             Logout
           </Button>
         </>

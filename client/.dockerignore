@@ -1,8 +1,7 @@
-.next
-node_modules
-.npmignore
-.git
-.gitignore
 Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
 README.md
-package-lock.json
+.next
+.git
