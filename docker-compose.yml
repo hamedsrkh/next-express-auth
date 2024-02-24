@@ -1,6 +1,20 @@
 version: '3'
 services:
-  web:
+  client:
+    container_name: client
+    build:
+      context: ./client
+      dockerfile: prod.Dockerfile
+      args:
+        NEXTAUTH_URL: ${NEXTAUTH_URL}
+        NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - my_network
+
+  server:
     build:
       context: server
       dockerfile: server/Dockerfile
@@ -12,6 +26,7 @@ services:
       - db
     env_file:
       - server/.env
+
   db:
     build:
       context: server
