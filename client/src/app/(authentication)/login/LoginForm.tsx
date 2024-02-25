@@ -1,21 +1,32 @@
 'use client'
 
 import { Button, TextField } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
 import { signIn } from 'next-auth/react'
+import { object, string } from 'yup'
+import { useFormik } from 'formik'
+
+const LoginFormValidationSchema = object({
+  email: string().email('Enter a valid email').required('Email is required'),
+  password: string().required('Password is required'),
+})
 
 function LoginForm() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    await signIn('credentials', {
-      email,
-      password,
-    })
-  }
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: LoginFormValidationSchema,
+    onSubmit: async ({ email, password }, { resetForm }) => {
+      await signIn('credentials', {
+        email,
+        password,
+      })
+    },
+  })
   return (
-    <form onSubmit={handleSubmit} noValidate>
+    <form onSubmit={formik.handleSubmit} noValidate>
       <TextField
         variant="outlined"
         margin="normal"
@@ -26,8 +37,11 @@ function LoginForm() {
         name="email"
         autoComplete="email"
         autoFocus
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={formik.values.email}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.email && Boolean(formik.errors.email)}
+        helperText={formik.touched.email && formik.errors.email}
       />
       <TextField
         variant="outlined"
@@ -39,8 +53,11 @@ function LoginForm() {
         type="password"
         id="password"
         autoComplete="current-password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.password && Boolean(formik.errors.password)}
+        helperText={formik.touched.password && formik.errors.password}
       />
       <Button
         type="submit"

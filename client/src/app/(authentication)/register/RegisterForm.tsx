@@ -1,21 +1,36 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
+import { object, string } from 'yup'
 import { Button, TextField } from '@mui/material'
 import { register } from '@/requests/auth'
+import { useFormik } from 'formik'
+
+const RegisterFormValidationSchema = object({
+  name: string().required('Name is required'),
+  email: string().email('Enter a valid email').required('Email is required'),
+  password: string()
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+})
 
 function RegisterForm() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      name: '',
+      password: '',
+    },
+    validationSchema: RegisterFormValidationSchema,
+    onSubmit: async ({ email, name, password }, { resetForm }) => {
+      const res = await register({ email, password, name })
+      if (res.ok) {
+        resetForm()
+      }
+    },
+  })
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const res = await register({ email, password, name })
-    const message = await res.json()
-    console.log(message)
-  }
   return (
-    <form onSubmit={handleSubmit} noValidate>
+    <form onSubmit={formik.handleSubmit} noValidate>
       <TextField
         variant="outlined"
         margin="normal"
@@ -26,8 +41,11 @@ function RegisterForm() {
         name="name"
         autoComplete="name"
         autoFocus
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={formik.values.name}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.name && Boolean(formik.errors.name)}
+        helperText={formik.touched.name && formik.errors.name}
       />
       <TextField
         variant="outlined"
@@ -38,8 +56,11 @@ function RegisterForm() {
         label="Email Address"
         name="email"
         autoComplete="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={formik.values.email}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.email && Boolean(formik.errors.email)}
+        helperText={formik.touched.email && formik.errors.email}
       />
       <TextField
         variant="outlined"
@@ -51,8 +72,11 @@ function RegisterForm() {
         type="password"
         id="password"
         autoComplete="current-password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.password && Boolean(formik.errors.password)}
+        helperText={formik.touched.password && formik.errors.password}
       />
       <Button
         type="submit"
