@@ -3,9 +3,16 @@ import { hashPassword } from '@src/services/authentication/auth'
 import { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import { generateToken } from '@src/services/authentication/jwt'
+import { validationResult } from 'express-validator'
 
 export async function register(req: Request, res: Response) {
   const { email, password, name } = req.body
+
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(403).json({ errors: errors.array() })
+  }
+
   const existingUser = await prisma.user.findUnique({
     where: { email },
   })
