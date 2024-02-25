@@ -23,10 +23,12 @@ COPY tsconfig.json .
 
 # Environment variables must be present at build time
 # https://github.com/vercel/next.js/discussions/14030
-ARG ENV_VARIABLE
-ENV ENV_VARIABLE=${ENV_VARIABLE}
-ARG NEXT_PUBLIC_ENV_VARIABLE
-ENV NEXT_PUBLIC_ENV_VARIABLE=${NEXT_PUBLIC_ENV_VARIABLE}
+ARG NEXTAUTH_URL
+ENV NEXTAUTH_URL=${NEXTAUTH_URL}
+ARG NEXTAUTH_SECRET
+ENV NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+ARG NEXT_PUBLIC_BASE_URL
+ENV NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
 
 # Next.js collects completely anonymous telemetry data about general usage. Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line to disable telemetry at build time
@@ -61,10 +63,12 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Environment variables must be redefined at run time
-ARG ENV_VARIABLE
-ENV ENV_VARIABLE=${ENV_VARIABLE}
-ARG NEXT_PUBLIC_ENV_VARIABLE
-ENV NEXT_PUBLIC_ENV_VARIABLE=${NEXT_PUBLIC_ENV_VARIABLE}
+ARG NEXTAUTH_URL
+ENV NEXTAUTH_URL=${NEXTAUTH_URL}
+ARG NEXTAUTH_SECRET
+ENV NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+ARG NEXT_PUBLIC_BASE_URL
+ENV NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
 
 # Uncomment the following line to disable telemetry at run time
 # ENV NEXT_TELEMETRY_DISABLED 1

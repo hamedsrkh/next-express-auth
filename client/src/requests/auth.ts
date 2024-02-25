@@ -1,5 +1,3 @@
-const baseUrl = 'http://localhost:8085/api'
-
 export async function login({
   email,
   password,
@@ -7,7 +5,7 @@ export async function login({
   email: string
   password: string
 }) {
-  return await fetch(`${baseUrl}/auth/login`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json',
@@ -25,7 +23,7 @@ export async function register({
   password: string
   name: string
 }) {
-  return await fetch(`${baseUrl}/auth/register`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/register`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json',

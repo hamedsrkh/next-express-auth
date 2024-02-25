@@ -1,4 +1,4 @@
-import prisma from '@src/prisma/prismaClient'
+import prisma from '@prisma/prismaClient'
 import { hashPassword } from '@src/services/authentication/auth'
 import { Request, Response } from 'express'
 import bcrypt from 'bcrypt'

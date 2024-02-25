@@ -1,14 +1,12 @@
 import passport from 'passport'
 import { Strategy, ExtractJwt } from 'passport-jwt'
-import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
+import prisma from '@prisma/prismaClient'
 
 export const hashPassword = async (password: string): Promise<string> => {
   const saltRounds = 10
   return bcrypt.hash(String(password), saltRounds)
 }
-
-const prisma = new PrismaClient()
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

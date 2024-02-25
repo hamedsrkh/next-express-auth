@@ -1,40 +1,52 @@
 version: '3'
 services:
   client:
-    container_name: client
+    container_name: chat-client
     build:
       context: ./client
       dockerfile: prod.Dockerfile
       args:
         NEXTAUTH_URL: ${NEXTAUTH_URL}
         NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+        NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
     restart: always
     ports:
-      - 3000:3000
+      - "3000:3000"
+    depends_on:
+      - server
     networks:
       - my_network
 
   server:
+    container_name: chat-server
     build:
-      context: server
-      dockerfile: server/Dockerfile
+      context: ./server
+      dockerfile: Dockerfile
     ports:
       - "8085:8085"
-#    volumes:
-#      - .:/app
+    restart: always
     depends_on:
       - db
-    env_file:
-      - server/.env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+    networks:
+      - my_network
 
   db:
+    container_name: chat-db
     build:
-      context: server
-      dockerfile: server/docker/postgresql/Dockerfile
+      context: ./server
+      dockerfile: docker/postgresql/Dockerfile
     ports:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    networks:
+      - my_network
 
 volumes:
   postgres-data:
+
+networks:
+  my_network:
