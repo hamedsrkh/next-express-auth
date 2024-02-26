@@ -16,11 +16,13 @@ export const authOptions: NextAuthOptions = {
           email: string
           password: string
         }
-        const res = await login({ email, password })
-        const user = await res.json()
-        if (res.ok && user) {
-          return user
-        } else {
+        try {
+          const res = await login({ email, password })
+          if (!res.ok) {
+            return null
+          }
+          return await res.json()
+        } catch (e) {
           return null
         }
       },
