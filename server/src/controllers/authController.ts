@@ -38,6 +38,12 @@ export async function register(req: Request, res: Response) {
 
 export async function login(req: Request, res: Response) {
   const { email, password } = req.body
+
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(403).json({ errors: errors.array() })
+  }
+
   // Find the user by email
   const user = await prisma.user.findUnique({
     where: { email },
