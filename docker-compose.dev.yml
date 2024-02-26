@@ -1,0 +1,61 @@
+version: '3'
+services:
+  client-dev:
+    container_name: chat-client-dev
+    build:
+      context: ./client
+      dockerfile: dev.Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - nginx
+    networks:
+      - my_network
+    environment:
+      NEXT_PUBLIC_BASE_URL: "http://myapp.local/api"
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+
+  server-dev:
+    container_name: chat-server-dev
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+    networks:
+      - my_network
+
+  db:
+    container_name: chat-db
+    build:
+      context: ./server
+      dockerfile: docker/postgresql/Dockerfile
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - my_network
+  nginx:
+    image: nginx:latest
+    container_name: chat-nginx
+    volumes:
+      - ./server/nginx:/etc/nginx/conf.d:ro # Mount your NGINX config directory
+    ports:
+      - "80:80" # Expose NGINX on port 80
+    depends_on:
+      - server-dev
+    networks:
+      - my_network
+
+
+volumes:
+  postgres-data:
+
+networks:
+  my_network:
