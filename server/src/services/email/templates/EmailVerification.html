@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+      .button {
+          display: inline-block;
+          padding: 10px 20px;
+          font-size: 16px;
+          cursor: pointer;
+          text-align: center;
+          text-decoration: none;
+          outline: none;
+          color: #fff;
+          background-color: #4CAF50;
+          border: none;
+          border-radius: 15px;
+          box-shadow: 0 9px #999;
+      }
+
+      .button:hover {background-color: #3e8e41}
+
+      .button:active {
+          background-color: #3e8e41;
+          box-shadow: 0 5px #666;
+          transform: translateY(4px);
+      }
+
+      .container {
+          max-width: 600px;
+          margin: 20px auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          background: #f9f9f9;
+      }
+
+      h2 {
+          text-align: center;
+          color: #333;
+      }
+
+      p {
+          font-size: 16px;
+          color: #666;
+          line-height: 1.5;
+      }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Email Verification</h2>
+  <p>Hello,</p>
+  <p>Thank you for registering with us. To complete your registration, please verify your email address by clicking the button below.</p>
+  <br>
+  <a href="{{verificationLink}}" class="button">Verify Email</a>
+  <br>
+  <p>If you did not request this, please ignore this email.</p>
+</div>
+</body>
+</html>

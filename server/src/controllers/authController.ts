@@ -4,6 +4,7 @@ import { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import { generateToken } from '@src/services/authentication/jwt'
 import { validationResult } from 'express-validator'
+import { sendEmailVerificationNotification } from '@src/notifications/emailVerificationNotification'
 
 export async function register(req: Request, res: Response) {
   const { email, password, name } = req.body
@@ -32,6 +33,12 @@ export async function register(req: Request, res: Response) {
       password: hashedPassword,
     },
   })
+
+  try {
+    await sendEmailVerificationNotification(newUser)
+  } catch (e) {
+    throw new Error('verification email not sent!')
+  }
 
   res.json({ message: 'User registered successfully', userId: newUser.id })
 }

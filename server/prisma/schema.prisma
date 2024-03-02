@@ -9,9 +9,26 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  password String
+  id                     Int                      @id @default(autoincrement())
+  email                  String                   @unique
+  name                   String?
+  password               String
+  emailVerified          Boolean                  @default(false)
+  EmailVerificationToken EmailVerificationToken[]
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+}
+
+model EmailVerificationToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  expires   DateTime
+  User      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId], name: "idx_email_verification_token_userId")
 }
